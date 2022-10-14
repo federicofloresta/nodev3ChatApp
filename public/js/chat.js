@@ -123,8 +123,8 @@ socket.on("roomData",({room, users}) => {
 
     navigator.geolocation.getCurrentPosition((position) => {
       socket.emit("sendLocation", {
+        longitude: position.coords.longitude,
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
        }, () => {
         $locationButton.removeAttribute("disabled");
       });
