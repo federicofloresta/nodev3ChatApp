@@ -64,7 +64,7 @@ be able to declare it as a global variable so that I do not have that problem */
 these users are located */
     socket.on("sendLocation", (position, callback) => {
         const user = getUser(socket.id);
-        io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, "https://google.com/maps?=${position.latitude},${position.longitude}"));
+        io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, "https://google.com/maps?q=${position.latitude},${position.longitude}"));
         callback();
     });
 

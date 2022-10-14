@@ -55,7 +55,6 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
   /* To do this we will need the height of the new message element, because if the height is lower than the ante-ultimo message then that means that we will 
   autoscroll the message, if its not then we will not autoscroll since that means that the user is looking for a specific data that was mentioned in the past*/
   socket.on("message", (message) => {
-    console.log(message);
     const html = Mustache.render(messageTemplate, {
       username: message.username,
       message: message.text,
@@ -73,7 +72,6 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
   });
 
   socket.on("locationMessage", (message) => {
-    console.log(message);
     const html = Mustache.render(locationTemplate, {
       username: message.username,
       url: message.url,
@@ -120,17 +118,17 @@ socket.on("roomData",({room, users}) => {
     if (!navigator.geolocation) {
       return alert("Geolocation is not supportive by your browser");
     }
+
     $locationButton.setAttribute("disabled", "disabled");
-    (navigator.geolocation.getCurrentPosition((position) => {
+
+    navigator.geolocation.getCurrentPosition((position) => {
       socket.emit("sendLocation", {
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude
-      }, () => {
-        console.log("Location has been successfully shared!")
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+       }, () => {
         $locationButton.removeAttribute("disabled");
       });
     })
-    )
   });
 
   socket.emit("join", {username, room}, (error) => {
